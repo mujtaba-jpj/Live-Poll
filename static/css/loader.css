@@ -1,0 +1,165 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #282a37;
+  }
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+  }
+  .loading div {
+    width: 1rem;
+    height: 1rem;
+    margin: 2rem 0.3rem;
+    background: #979fd0;
+    border-radius: 50%;
+    -webkit-animation: 0.9s bounce infinite alternate;
+            animation: 0.9s bounce infinite alternate;
+  }
+  .loading div:nth-child(2) {
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s;
+  }
+  .loading div:nth-child(3) {
+    -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+  }
+  
+  @-webkit-keyframes bounce {
+    to {
+      opacity: 0.3;
+      transform: translate3d(0, -1rem, 0);
+    }
+  }
+  
+  @keyframes bounce {
+    to {
+      opacity: 0.3;
+      transform: translate3d(0, -1rem, 0);
+    }
+  }
+  .donut {
+    width: 2rem;
+    height: 2rem;
+    margin: 2rem;
+    border-radius: 50%;
+    border: 0.3rem solid rgba(151, 159, 208, 0.3);
+    border-top-color: #979fd0;
+    -webkit-animation: 1.5s spin infinite linear;
+            animation: 1.5s spin infinite linear;
+  }
+  .donut.multi {
+    border-bottom-color: #979fd0;
+  }
+  
+  @-webkit-keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .ripple {
+    width: 2rem;
+    height: 2rem;
+    margin: 2rem;
+    border-radius: 50%;
+    border: 0.3rem solid #979fd0;
+    transform: translate(50%);
+    -webkit-animation: 1s ripple ease-out infinite;
+            animation: 1s ripple ease-out infinite;
+  }
+  
+  @-webkit-keyframes ripple {
+    from {
+      transform: scale(0);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes ripple {
+    from {
+      transform: scale(0);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  .multi-ripple {
+    width: 2.6rem;
+    height: 2.6rem;
+    margin: 2rem;
+  }
+  .multi-ripple div {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 0.3rem solid #979fd0;
+    -webkit-animation: 1.5s ripple infinite;
+            animation: 1.5s ripple infinite;
+  }
+  .multi-ripple div:nth-child(2) {
+    -webkit-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+  }
+  
+  .fancy-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+  }
+  .fancy-spinner div {
+    position: absolute;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+  }
+  .fancy-spinner div.ring {
+    border-width: 0.5rem;
+    border-style: solid;
+    border-color: transparent;
+    -webkit-animation: 2s fancy infinite alternate;
+            animation: 2s fancy infinite alternate;
+  }
+  .fancy-spinner div.ring:nth-child(1) {
+    border-left-color: #979fd0;
+    border-right-color: #979fd0;
+  }
+  .fancy-spinner div.ring:nth-child(2) {
+    border-top-color: #979fd0;
+    border-bottom-color: #979fd0;
+    -webkit-animation-delay: 1s;
+            animation-delay: 1s;
+  }
+  .fancy-spinner div.dot {
+    width: 1rem;
+    height: 1rem;
+    background: #979fd0;
+  }
+  
+  @-webkit-keyframes fancy {
+    to {
+      transform: rotate(360deg) scale(0.5);
+    }
+  }
+  
+  @keyframes fancy {
+    to {
+      transform: rotate(360deg) scale(0.5);
+    }
+  }
