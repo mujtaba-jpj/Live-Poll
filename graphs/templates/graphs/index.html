@@ -1,164 +1,33 @@
-<!DOCTYPE html>
+{% extends 'main.html' %}
 {% load static %}
-<!-- Created By CodingNepal - www.codingnepalweb.com -->
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'css/loader.css' %}">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  
-</head>
 
-<!-- loader -->
-<div id="loader" class="loading">
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+{% block content %}
 
-<body>
-  <div class="wrapper" style="display: none;">
-    <header>{{poll.name}}</header>
-    <div class="poll-area">
-      {% for pollChoice in poll.options.all %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+<div class="container text-center">
+    <div class="row">
+      <div class="col-6 pt-5 align-self-auto">
+        <h1 style="font-size: 5.5rem;" class="text-start lh-1">LIVE <br>POLLING</h1>
+        <p class="text-start pt-3 fs-4">LivePolls is an innovative web application that leverages 
+          the power of WebSockets to create live and interactive polls. The website provides 
+          a seamless and engaging platform for users to conduct real-time polls and gather 
+          instant feedback from their audience.
+        </p>
+      </div>
+      <div class="col-6">
+        <img src="{% static 'images/poll.png' %}" alt="" srcset="">
+      </div>
+      
+    </div>
+    <div class="row pb-5">
+      <div class="col-5">
 
-      <input type="checkbox" name="poll" id="opt-{{forloop.counter}}">
-      <label for="opt-{{forloop.counter}}" class="opt-{{forloop.counter}}">
-        <div class="row">
-          <div class="column">
-            <span class="circle"></span>
-            <span class="text">{{pollChoice.choice_name}}</span>
-          </div>
-          <span class="percent">{{pollChoice.choice_votes}} Votes</span>
-        </div>
-        <div class="progress" style='--w:0;'></div>
-      </label>
-
-      {% endfor %}
-
+      </div>
     </div>
   </div>
 
 
-</body>
-
-<script>
-  const ws = new WebSocket('ws://'
-    + window.location.host
-    + '/ws/btc/')
-
-  ws.onopen = function (event) {
-    setTimeout(function() {
-      if(ws.readyState == WebSocket.OPEN) {
-        document.getElementById('loader').style.display = 'none'
-        document.querySelector('.wrapper').removeAttribute('style')
-      }
-    },3000)
-  }
-
-
-  function send_status(index, status) {
-    let choice_name = options[index].querySelectorAll('.text')[0].innerHTML;
-    let data = {}
-    data['choice_name'] = choice_name
-    data['status'] = status
-    ws.send(JSON.stringify({
-      'message': data
-    }))
-  }
-
-
-
-  ws.onmessage = function (e) {
-    const data = JSON.parse(e.data);
-
-    if (data.voted_user_option) {
-      let choicesDom = document.querySelectorAll('.text')
-      let options = document.querySelectorAll("label");
-
-      for (let i = 0; i < choicesDom.length; i++) {
-        var element = choicesDom[i]
-        if (element.innerHTML === data.voted_user_option) {
-          options[i].classList.add("selected");
-          options[i].classList.add("selectall");
-
-        }
-      }
-
-    }
-    else {
-      const dataLen = Object.keys(data)
-      var choicesDom = document.querySelectorAll('.text')
-      var totalVotes = data[dataLen.length - 1].total_votes
-
-
-      for (let i = 0; i < dataLen.length - 1; i++) {
-        var element = choicesDom[i]
-        if (element.innerHTML === data[i].choice_name) {
-          var voteDom = element.parentElement.parentElement.childNodes[3]
-          var progressDom = document.getElementsByClassName('progress')
-          var progressPercentage = (data[i].choice_votes / totalVotes) * 100
-          progressDom[i].style = '--w:' + progressPercentage;
-          voteDom.innerHTML = data[i].choice_votes + ' Votes';
-
-        }
-
-      }
-    }
-
-  };
-
-
-</script>
-
-
-<script>
-  const options = document.querySelectorAll("label");
-  for (let i = 0; i < options.length; i++) {
-
-    options[i].addEventListener("click", () => {
-      for (let j = 0; j < options.length; j++) {
-        if (options[j].classList.contains("selected")) {
-
-          send_status(j, 0)
-          options[j].classList.remove("selected");
-        }
-      }
-
-      send_status(i, 1)
-      options[i].classList.add("selected");
-
-      for (let k = 0; k < options.length; k++) {
-        options[k].classList.add("selectall");
-      }
-
-      let forVal = options[i].getAttribute("for");
-      let selectInput = document.querySelector("#" + forVal);
-      let getAtt = selectInput.getAttribute("type");
-      if (getAtt == "checkbox") {
-        selectInput.setAttribute("type", "radio");
-      } else if (selectInput.checked == true) {
-
-        send_status(i, 0)
-        options[i].classList.remove("selected");
-        selectInput.setAttribute("type", "checkbox");
-      }
-
-      let array = [];
-      for (let l = 0; l < options.length; l++) {
-        if (options[l].classList.contains("selected")) {
-          array.push(l);
-        }
-      }
-      if (array.length == 0) {
-        for (let m = 0; m < options.length; m++) {
-          options[m].removeAttribute("class");
-        }
-      }
-    });
-  }
-</script>
-
-</html>
+{% endblock %}

@@ -15,7 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from channels.layers import get_channel_layer
 
 
-class GraphConsumer(SyncConsumer):
+class PollConsumer(SyncConsumer):
 
     def websocket_connect(self, event):
         print('Websocket Connected....', event)
@@ -24,9 +24,14 @@ class GraphConsumer(SyncConsumer):
             'type': 'websocket.accept'
         })
 
-        poll = Poll.objects.get(id='poll-31868258')
+
+
+        poll_id = self.scope['url_route']['kwargs'].get('id')
+        poll = Poll.objects.get(id=poll_id)
         polloptions = poll.options.all()
         user = self.scope['user']
+
+        async_to_sync(self.channel_layer.group_add)(poll.id, self.channel_name)
 
         try:
             voter = polloptions.get(voters=user)
@@ -43,15 +48,16 @@ class GraphConsumer(SyncConsumer):
     def websocket_receive(self, event):
         print('Websocket recieved message....', event)
 
+
+        poll_id = self.scope['url_route']['kwargs'].get('id')
         vote = json.loads(event['text'])['message']
-        poll = Poll.objects.get(id='poll-31868258')
+        poll = Poll.objects.get(id=poll_id)
         totalVotes = poll.total_votes
         polloptionsvotes = poll.options.all()
         selectedOption = poll.options.get(choice_name=vote['choice_name'])
         voters = selectedOption.voters.all()
         user = self.scope['user']
 
-        async_to_sync(self.channel_layer.group_add)(poll.id, self.channel_name)
 
         if vote['status'] == 1:
 
