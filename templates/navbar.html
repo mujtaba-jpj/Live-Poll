@@ -2,8 +2,10 @@
     <div class="grad-bar"></div>
     <nav class="navbar">
         <a href="/">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c8/Bluestar_%28bus_company%29_logo.svg/1280px-Bluestar_%28bus_company%29_logo.svg.png"
-                alt="Company Logo">
+            Home
+
+            <!-- <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c8/Bluestar_%28bus_company%29_logo.svg/1280px-Bluestar_%28bus_company%29_logo.svg.png"
+                alt="Company Logo"> -->
         </a>
         <div class="menu-toggle" id="mobile-menu">
             <span class="bar"></span>
@@ -11,9 +13,9 @@
             <span class="bar"></span>
         </div>
         <ul class="nav no-search">
-            <li class="nav-item"><a href="/">Home</a></li>
-            <li class="nav-item"><a href="#">Create Poll</a></li>
+            <li class="nav-item"><a href="{% url 'create-poll' %}">Create Poll</a></li>
             {% if user.is_authenticated %}
+            <li class="nav-item"><a href="{% url 'my-polls' %}">View My Polls</a></li>
             <li class="nav-item"><a href="{% url 'logout-user' %}">Logout The User</a></li>
             {% else %}
             <li class="nav-item"><a href="{% url 'login-user' %}">Login/Signup</a></li>

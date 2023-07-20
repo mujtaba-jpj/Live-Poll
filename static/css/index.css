@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -7,14 +7,13 @@
 }
 
 body {
-  background: linear-gradient(90deg, #6167ED,#6592F7,#67ACE0,#65DFF7);
+  background: linear-gradient(90deg, #6167ed, #6592f7, #67ace0, #65dff7);
   background-size: 400% 400%;
   -webkit-animation: gradbar 15s ease infinite;
   -moz-animation: gradbar 15s ease infinite;
   animation: gradbar 15s ease infinite;
   /* background-image: url("../images/bg.jpg"); */
   /* background-size: cover; */
-
 }
 
 /* HEADINGS */
@@ -73,11 +72,18 @@ h2 {
   overflow: hidden;
 }
 
-.navbar img {
+.navbar a {
   height: 30px;
   width: auto;
   justify-self: start;
-  margin-left: 80px;
+  margin-left: 100px;
+}
+.navbar a {
+  color: #000;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.3s ease-out;
 }
 
 .navbar ul {

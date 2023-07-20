@@ -1,36 +1,66 @@
 {% include 'main.html' %}
 
 {% block content %}
-  
+{% load static %}
 
-  <!-- loader -->
-  <div id="loader" class="loading">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+<link rel="stylesheet" href="{% static 'css/copy.css' %}">
 
-  <div class="wrapper" style="display: none;">
-    <header>{{poll.name}}</header>
-    <div class="poll-area">
-      {% for pollChoice in poll.options.all %}
+<!-- loader -->
+<div id="loader" class="loading">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
 
-      <input type="checkbox" name="poll" id="opt-{{forloop.counter}}">
-      <label for="opt-{{forloop.counter}}" class="opt-{{forloop.counter}}">
-        <div class="row">
-          <div class="column">
-            <span class="circle"></span>
-            <span class="text">{{pollChoice.choice_name}}</span>
-          </div>
-          <span class="percent">{{pollChoice.choice_votes}} Votes</span>
+<div class="wrapper" style="display: none;">
+  <header>{{poll.name}}</header>
+  <div class="poll-area">
+    {% for pollChoice in poll.options.all %}
+
+    <input type="checkbox" name="poll" id="opt-{{forloop.counter}}">
+    <label for="opt-{{forloop.counter}}" class="opt-{{forloop.counter}}">
+      <div class="row">
+        <div class="column">
+          <span class="circle"></span>
+          <span class="text">{{pollChoice.choice_name}}</span>
         </div>
-        <div class="progress" style='--w:0;'></div>
-      </label>
+        <span class="percent">{{pollChoice.choice_votes}} Votes</span>
+      </div>
+      <div class="progress" style='--w:0;'></div>
+    </label>
 
-      {% endfor %}
+    {% endfor %}
 
-    </div>
   </div>
+</div>
+
+
+
+<div class="container" style="display: none;">
+  <div class="label">
+    Share Poll
+  </div>
+  <div class="copy-text">
+    <input id="clip" type="text" class="text" value="" />
+    <button><i class="fa fa-clone"></i></button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('clip').value = window.location.href
+  let copyText = document.querySelector(".copy-text");
+  copyText.querySelector("button").addEventListener("click", function () {
+    let input = copyText.querySelector("input.text");
+    input.select();
+    document.execCommand("copy");
+    copyText.classList.add("active");
+    window.getSelection().removeAllRanges();
+    setTimeout(function () {
+      copyText.classList.remove("active");
+    }, 2500);
+  });
+
+</script>
 
 
 
@@ -38,12 +68,12 @@
   const ws = new WebSocket('ws://'
     + window.location.host
     + '/ws' + window.location.pathname)
-
-  ws.onopen = function (event) {
+    ws.onopen = function (event) {
     setTimeout(function () {
       if (ws.readyState == WebSocket.OPEN) {
-        document.getElementById('loader').style.display = 'none'
-        document.querySelector('.wrapper').removeAttribute('style')
+        document.getElementById('loader').style.display = 'none';
+        document.querySelector('.wrapper').removeAttribute('style');
+        document.querySelector('.container').removeAttribute('style');
       }
     }, 3000)
   }
@@ -152,5 +182,3 @@
 </script>
 
 {% endblock %}
-
-

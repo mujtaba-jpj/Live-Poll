@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-4n&f4b*4=sx%*2ww2g^nc*==r7*y4k0w+&zfuf4^tzgvnr3#t%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','.ngrok-free.app' , '8a69-2400-adc1-41b-e500-7886-bab6-772b-8c3.ngrok-free.app']
 
 
 # Application definition
@@ -163,7 +163,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("127.0.0.1", 6379)   ],
         },
     },
 }

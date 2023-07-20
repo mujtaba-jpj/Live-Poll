@@ -19,19 +19,17 @@ def poll(request, poll_id):
 
 def LoginUser(request):
     if request.user.is_authenticated:
-        messages.error(request, 'Already logged in')
+        messages.warning(request, 'Already logged in')
         return redirect('home')
 
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
 
-        print('USername .... ', username)
-        print('password .... ', password)
         try:
             user = User.objects.get(username=username)
         except:
-            messages.error(request, 'Account does not exist with that email')
+            messages.warning(request, 'Account does not exist with that email')
 
         user = authenticate(request, username=username, password=password)
 
@@ -40,9 +38,10 @@ def LoginUser(request):
             messages.success(request, 'Successfully logged in')
             return redirect('home')
         else:
-            messages.error(request, 'Username OR Password is incorrect')
+            messages.warning(request, 'Username OR Password is incorrect')
 
     return render(request, 'graphs/register_login_form.html')
+
 
 @login_required(login_url='login-user')
 def LogoutUser(request):
@@ -52,6 +51,35 @@ def LogoutUser(request):
     return redirect('home')
 
 
+@login_required(login_url='login-user')
 def createPoll(request):
-    
-    return render(request,'graphs/poll_form.html')
+
+    if request.method == 'POST':
+        pollName = request.POST['pollName']
+        pollOpts = request.POST.getlist('pollOptVal')
+
+        pollCreation = Poll.objects.create(
+            name=pollName,
+            owner=request.user,
+        )
+        for opt in pollOpts:
+            PollChoices.objects.create(
+                poll_rs=pollCreation,
+                choice_name=opt,
+            )
+
+        return redirect('/poll/'+pollCreation.id)
+
+    return render(request, 'graphs/poll_form.html')
+
+
+@login_required(login_url='login-user')
+def myPolls(request):
+
+    userPolls = Poll.objects.filter(owner=request.user)
+    if userPolls.exists():
+        context = {'userPolls': userPolls}
+        return render(request, 'graphs/my_polls.html', context)
+    else:
+        messages.info(request,'No Polls found created by this user')
+        return redirect('home')

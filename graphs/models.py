@@ -11,19 +11,21 @@ def generate_random_code():
 
 
 class Poll(models.Model):
-    uuid = generate_random_code()
     id = models.CharField(
-        primary_key=True, default=str(uuid), editable=False, max_length=50)
+        primary_key=True, editable=False, max_length=50)
     name = models.CharField(max_length=100, null=False, blank=False)
+    owner = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.CASCADE)
     total_votes = models.IntegerField(default=0)
-    # options = models.ManyToManyField('PollChoices')
 
     def __str__(self):
-        return self.id
+        return self.name
 
     def save(self, *args, **kwargs):
         self.total_votes = self.options.aggregate(Sum('choice_votes'))[
             'choice_votes__sum'] or 0
+        if not self.id:
+            self.id = generate_random_code()
         super().save(*args, **kwargs)
 
 
