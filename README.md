@@ -31,3 +31,20 @@ Live and Interactive Polls using websockets
 * sqlite
 * Django Channels
 * Redis
+
+# Home Page
+<img src="resources/home.png">  
+
+# Login Page
+<img src="resources/login.png">  
+
+# Poll Page
+<img src="resources/pollPage.png">  
+
+# Poll Creation Page
+<img src="resources/poll_form.png">  
+
+# My Polls page
+<img src="resources/myPolls.png">  
+
+
