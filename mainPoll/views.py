@@ -15,7 +15,6 @@ def index(request):
 @login_required
 def poll(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
-    print(poll)
     return render(request, 'mainPoll/poll.html', {'poll': poll})
 
 

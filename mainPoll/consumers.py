@@ -36,7 +36,6 @@ class PollConsumer(SyncConsumer):
             pass
 
     def websocket_receive(self, event):
-        print('Websocket recieved message....', event)
 
         poll_id = self.scope['url_route']['kwargs'].get('id')
         vote = json.loads(event['text'])['message']
@@ -46,12 +45,11 @@ class PollConsumer(SyncConsumer):
         selectedOption = poll.options.get(choice_name=vote['choice_name'])
         voters = selectedOption.voters.all()
         user = self.scope['user']
-        print('STAGE 1 PASSED')
 
         if vote['status'] == 1:
                 
             if user in voters:
-                print('Already Voted Cant Vote')
+                messages.warning('Already Voted Cant Vote')
 
             elif user not in voters:
                 selectedOption.choice_votes += 1
