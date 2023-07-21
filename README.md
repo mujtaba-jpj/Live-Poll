@@ -28,9 +28,11 @@ Live and Interactive Polls using websockets
 
 # Tech Stack
 * Django
+* Django-websockets
 * sqlite
 * Django Channels
 * Redis
+* Jquery-Ajax
 
 # Home Page
 <img src="resources/home.png">  
