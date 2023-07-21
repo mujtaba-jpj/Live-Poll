@@ -1,0 +1,24 @@
+<script>
+    function deletePoll(e) {
+        var pollId = $(e).attr('data-pollId');
+        console.log(pollId);
+
+        $.ajax({
+            url: "{% url 'delete-poll' %}",
+            method: "POST",
+            data: { pollId: pollId },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.status == 1) {
+                    var pollLen = $('.pollListOpt').length;
+                    if (pollLen <= 0 ) {
+                        window.location.replace(window.location.origin);
+                    }
+                    window.location.replace(window.location.href)
+                }
+            }
+        })
+    }
+
+</script>
